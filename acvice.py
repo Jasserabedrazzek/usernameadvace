@@ -1,25 +1,20 @@
 import streamlit as st
-from faker import Faker
+import requests
 
-# Instantiate the Faker object
-fake = Faker()
+def get_username_advice():
+    st.title("GitHub Username Advice")
+    username = st.text_input("Enter GitHub username:")
+    
+    if st.button("Get Advice"):
+        # Call the GitHub API
+        response = requests.get(f"https://api.github.com/users/{username}")
+        
+        if response.status_code == 200:
+            data = response.json()
+            advice = data.get("bio", "No advice available")
+            st.success(f"Advice for {username}: {advice}")
+        else:
+            st.error("Unable to fetch data. Please check the username.")
 
-# Streamlit app code
-def generate_username_advice():
-    st.title("Username Advice Generator")
-    st.write("Get some username suggestions!")
-
-    with st.form("username_form"):
-        st.write("Enter your name:")
-        name = st.text_input("Name")
-        submit_button = st.form_submit_button("Generate")
-
-    if submit_button:
-        st.write("Username suggestions:")
-        username = fake.user_name()
-        st.write(username)
-
-# Run the Streamlit app
 if __name__ == "__main__":
-    generate_username_advice()
-
+    get_username_advice()
