@@ -1,13 +1,20 @@
-import socket
 import streamlit as st
+import socket
+import qrcode
 
-def get_hostname_advice():
-    hostname = socket.gethostname()
-    ip_address = socket.gethostbyname(hostname)
-    advice = f"Hostname: {hostname}\nIP Address: {ip_address}"
-    return advice
+# Get the hostname
+hostname = socket.gethostname()
 
-# Streamlit app code
-st.title("Hostname Advice")
-advice = get_hostname_advice()
-st.text(advice)
+# Display the hostname in Streamlit
+st.write("Hostname:", hostname)
+
+# Generate a QR code for the page URL
+qr = qrcode.QRCode()
+qr.add_data(st.url)
+qr.make()
+
+# Get the QR code image as SVG
+qr_image = qr.make_image(image_factory=qrcode.image.svg.SvgImage)
+
+# Display the QR code in Streamlit
+st.image(qr_image)
