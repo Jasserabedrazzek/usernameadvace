@@ -1,11 +1,8 @@
-import socket
-import getpass
+import os
 import streamlit as st
 
-# Get the hostname and username
-hostname = socket.gethostname()
-username = getpass.getuser()
+# Get the username
+username = os.getenv("USER")
 
-# Display the hostname and username in your Streamlit app
-st.write(f"Hostname: {hostname}")
+# Display the username in your Streamlit app
 st.write(f"Username: {username}")
