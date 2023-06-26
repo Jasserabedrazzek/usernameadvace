@@ -1,20 +1,13 @@
+import socket
 import streamlit as st
-import requests
 
-def get_username_advice():
-    st.title("GitHub Username Advice")
-    username = st.text_input("Enter GitHub username:")
-    
-    if st.button("Get Advice"):
-        # Call the GitHub API
-        response = requests.get(f"https://api.github.com/users/{username}")
-        
-        if response.status_code == 200:
-            data = response.json()
-            advice = data.get("bio", "No advice available")
-            st.success(f"Advice for {username}: {advice}")
-        else:
-            st.error("Unable to fetch data. Please check the username.")
+def get_hostname_advice():
+    hostname = socket.gethostname()
+    ip_address = socket.gethostbyname(hostname)
+    advice = f"Hostname: {hostname}\nIP Address: {ip_address}"
+    return advice
 
-if __name__ == "__main__":
-    get_username_advice()
+# Streamlit app code
+st.title("Hostname Advice")
+advice = get_hostname_advice()
+st.text(advice)
